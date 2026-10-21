@@ -76,20 +76,20 @@ SO99+ → [Import] → PEM (calculations and review) → [Export] → INTER_SO99
 
 ```
 ┌─────────────────────────────────────────────────────┐
-│                    UI Layer                          │
+│                    UI Layer                         │
 │  MainFormNEW, ProposalsForm, Dialogs, SummaryNodes  │
 │  (DevExpress WinForms + ColorStatus)                │
 ├─────────────────────────────────────────────────────┤
-│                  BCC Layer                           │
+│                  BCC Layer                          │
 │  Business Control Classes (PurchaseEditorBCC,       │
 │  ProposalsBCC, ItemBCC, SupplierBCC, etc.)          │
 │  → Orchestrate business logic                       │
 ├─────────────────────────────────────────────────────┤
-│                  DAL Layer                           │
+│                  DAL Layer                          │
 │  Data Access Layer (SQL Server, SqlClient)          │
 │  → Direct access to the 3 databases                 │
 ├─────────────────────────────────────────────────────┤
-│                  BEC Layer                           │
+│                  BEC Layer                          │
 │  Business Entity Classes (POCOs/DTOs)               │
 │  → Transport data between layers                    │
 └─────────────────────────────────────────────────────┘
@@ -441,7 +441,7 @@ The largest and most complex class in the system (~1161 lines). Responsibilities
 ┌──────────┐     ┌──────────┐     ┌──────────┐
 │  SO99+   │     │   PEM    │     │ERP/INTER │
 │ (Source) │     │ (Working)│     │(Target)  │
-└────┬─────┘     └────┬─────┘     └────┬─────┘
+└────┬─────┘     └─────┬────┘     └──────┬───┘
      │                 │                 │
      │  ① IMPORT       │                 │
      │────────────────►│                 │
@@ -929,90 +929,90 @@ User → Mark for Export → Save → Export
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
-│  1. START: The planner opens PEM                           │
-│     • The app connects to SO99, PEM and INTER_SO99         │
-│     • Loads configuration, language, columns               │
+│  1. START: The planner opens PEM                            │
+│     • The app connects to SO99, PEM and INTER_SO99          │
+│     • Loads configuration, language, columns                │
 └────────────────────────┬────────────────────────────────────┘
                          │
 ┌────────────────────────▼────────────────────────────────────┐
-│  2. IMPORT: The planner runs the import                    │
-│     • Proposals are imported from SO99 for the Plangroups  │
-│       whose planning frequency corresponds to the day      │
-│     • Masterdata, stocks, substitutions are imported       │
-│     • Optional: Load ERP Info (rules, logistics network)   │
+│  2. IMPORT: The planner runs the import                     │
+│     • Proposals are imported from SO99 for the Plangroups   │
+│       whose planning frequency corresponds to the day       │
+│     • Masterdata, stocks, substitutions are imported        │
+│     • Optional: Load ERP Info (rules, logistics network)    │
 └────────────────────────┬────────────────────────────────────┘
                          │
 ┌────────────────────────▼────────────────────────────────────┐
-│  3. PEM AUTOMATICALLY CALCULATES:                          │
-│     a) SO99 TransferOrders → linking + netting             │
-│     b) Local Substitutions → searches substitutes in same  │
-│        warehouse and nets                                  │
-│     c) Network Substitutions → searches same/equivalents   │
-│        across entire logistics network and nets            │
-│     d) Minimums Calculation → evaluates MANP3, MANP4, MANP5│
-│     e) Centralization → groups orders by batch/purchase    │
-│     f) Promotions → applies discounts                      │
+│  3. PEM AUTOMATICALLY CALCULATES:                           │
+│     a) SO99 TransferOrders → linking + netting              │
+│     b) Local Substitutions → searches substitutes in same   │
+│        warehouse and nets                                   │
+│     c) Network Substitutions → searches same/equivalents    │
+│        across entire logistics network and nets             │
+│     d) Minimums Calculation → evaluates MANP3, MANP4, MANP5 │
+│     e) Centralization → groups orders by batch/purchase     │
+│     f) Promotions → applies discounts                       │
 └────────────────────────┬────────────────────────────────────┘
                          │
 ┌────────────────────────▼────────────────────────────────────┐
-│  4. VISUALIZATION: The planner sees the hierarchical tree  │
-│     🌐 Plangroup                                           │
-│       🏭 Supplier                                          │
-│         🏬 Warehouse                                       │
-│           📋 Proposals (grid with configured columns)      │
+│  4. VISUALIZATION: The planner sees the hierarchical tree   │
+│     🌐 Plangroup                                            │
+│       🏭 Supplier                                           │
+│         🏬 Warehouse                                        │
+│           📋 Proposals (grid with configured columns)       │
 │                                                             │
-│     Colors by status:                                      │
-│     ⬜ Gray = Unprocessed                                  │
-│     🟢 Green = OK                                          │
-│     🔴 Red = MANP3 (minimum batch issue)                   │
-│     🟠 Orange = MANP4 (minimum purchase issue)             │
-│     🟡 Yellow = MANP5 (shipping issue)                     │
-│     🔵 Blue = Ready for export                             │
-│     🟣 Purple = Exported                                   │
+│     Colors by status:                                       │
+│     ⬜ Gray = Unprocessed                                   │
+│     🟢 Green = OK                                           │
+│     🔴 Red = MANP3 (minimum batch issue)                    │
+│     🟠 Orange = MANP4 (minimum purchase issue)              │
+│     🟡 Yellow = MANP5 (shipping issue)                      │
+│     🔵 Blue = Ready for export                              │
+│     🟣 Purple = Exported                                    │
 └────────────────────────┬────────────────────────────────────┘
                          │
 ┌────────────────────────▼────────────────────────────────────┐
-│  5. PROBLEM REVIEW (MANP3, MANP4, MANP5):                  │
-│     The planner reviews nodes with issues:                 │
+│  5. PROBLEM REVIEW (MANP3, MANP4, MANP5):                   │
+│     The planner reviews nodes with issues:                  │
 │                                                             │
-│     For each necessity in MANP3/MANP4/MANP5:               │
-│     • Opens the restrictions form                          │
-│       (Restriction_NecessitiesForm)                        │
-│     • Sees: Product, Quantity, Required minimum,           │
-│       Action options                                       │
+│     For each necessity in MANP3/MANP4/MANP5:                │
+│     • Opens the restrictions form                           │
+│       (Restriction_NecessitiesForm)                         │
+│     • Sees: Product, Quantity, Required minimum,            │
+│       Action options                                        │
 │                                                             │
-│     Available actions:                                     │
-│     • ADVANCE (0): Advance quantity                        │
-│     • BUY (1): Force purchase (ignore minimum)             │
-│     • NO_BUY (2): Do not buy                               │
-│     • TRANSFER (3): Transfer from another warehouse        │
-│     • CEN_NO_BUY (4): Centralize and do not buy            │
+│     Available actions:                                      │
+│     • ADVANCE (0): Advance quantity                         │
+│     • BUY (1): Force purchase (ignore minimum)              │
+│     • NO_BUY (2): Do not buy                                │
+│     • TRANSFER (3): Transfer from another warehouse         │
+│     • CEN_NO_BUY (4): Centralize and do not buy             │
 │                                                             │
-│     The planner can also:                                  │
-│     • Edit quantities manually in the grid                 │
-│     • View substitution candidates (SubsProposalsForm)     │
-│     • View movements/transfers (MovimentsPorposalsForm)    │
-│     • Edit compensation rules (RuleCompensaDialog)         │
+│     The planner can also:                                   │
+│     • Edit quantities manually in the grid                  │
+│     • View substitution candidates (SubsProposalsForm)      │
+│     • View movements/transfers (MovimentsPorposalsForm)     │
+│     • Edit compensation rules (RuleCompensaDialog)          │
 └────────────────────────┬────────────────────────────────────┘
                          │
 ┌────────────────────────▼────────────────────────────────────┐
-│  6. RECALCULATE (optional):                                │
-│     After manual changes, the planner can:                 │
-│     • Re-run substitution calculations                     │
-│     • Re-run minimum calculation                           │
-│     • States update automatically                          │
+│  6. RECALCULATE (optional):                                 │
+│     After manual changes, the planner can:                  │
+│     • Re-run substitution calculations                      │
+│     • Re-run minimum calculation                            │
+│     • States update automatically                           │
 └────────────────────────┬────────────────────────────────────┘
                          │
 ┌────────────────────────▼────────────────────────────────────┐
-│  7. APPROVAL AND EXPORT:                                   │
-│     • The planner selects Plangroups to export             │
-│     • Marks as "To Export" → TO_EXPORT state (90)          │
-│     • Runs Export:                                         │
-│       - Inserts into OUT_PURCHASE_ORDERS                   │
-│       - Inserts into OUT_TRANSFER_ORDERS                   │
-│       - Executes SP that moves data to INTER_SO99          │
-│     • Proposals transition to EXPORTED state (95)          │
-│     • Data reaches the ERP to generate actual orders       │
+│  7. APPROVAL AND EXPORT:                                    │
+│     • The planner selects Plangroups to export              │
+│     • Marks as "To Export" → TO_EXPORT state (90)           │
+│     • Runs Export:                                          │
+│       - Inserts into OUT_PURCHASE_ORDERS                    │
+│       - Inserts into OUT_TRANSFER_ORDERS                    │
+│       - Executes SP that moves data to INTER_SO99           │
+│     • Proposals transition to EXPORTED state (95)           │
+│     • Data reaches the ERP to generate actual orders        │
 └─────────────────────────────────────────────────────────────┘
 ```
 
