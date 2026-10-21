@@ -76,20 +76,20 @@ SO99+ → [Import] → PEM (cálculos y revisión) → [Export] → INTER_SO99 �
 
 ```
 ┌─────────────────────────────────────────────────────┐
-│                    UI Layer                          │
+│                    UI Layer                         │
 │  MainFormNEW, ProposalsForm, Dialogs, SummaryNodes  │
 │  (DevExpress WinForms + ColorStatus)                │
 ├─────────────────────────────────────────────────────┤
-│                  BCC Layer                           │
+│                  BCC Layer                          │
 │  Business Control Classes (PurchaseEditorBCC,       │
 │  ProposalsBCC, ItemBCC, SupplierBCC, etc.)          │
 │  → Orquestan la lógica de negocio                   │
 ├─────────────────────────────────────────────────────┤
-│                  DAL Layer                           │
+│                  DAL Layer                          │
 │  Data Access Layer (SQL Server, SqlClient)          │
 │  → Acceso directo a las 3 BBDD                      │
 ├─────────────────────────────────────────────────────┤
-│                  BEC Layer                           │
+│                  BEC Layer                          │
 │  Business Entity Classes (POCOs/DTOs)               │
 │  → Transportan datos entre capas                    │
 └─────────────────────────────────────────────────────┘
@@ -441,7 +441,7 @@ Es la clase más grande y compleja del sistema (~1161 líneas). Responsabilidade
 ┌──────────┐     ┌──────────┐     ┌──────────┐
 │  SO99+   │     │   PEM    │     │ERP/INTER │
 │ (Origen) │     │ (Trabajo)│     │ (Destino)│
-└────┬─────┘     └────┬─────┘     └────┬─────┘
+└────┬─────┘     └─────┬────┘     └──────┬───┘
      │                 │                 │
      │  ① IMPORT       │                 │
      │────────────────►│                 │
@@ -929,90 +929,90 @@ Usuario → Marcar para Exportar → Save → Export
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
-│  1. INICIO: El planificador abre PEM                       │
-│     • La app conecta a SO99, PEM e INTER_SO99              │
-│     • Carga configuración, idioma, columnas                │
+│  1. INICIO: El planificador abre PEM                        │
+│     • La app conecta a SO99, PEM e INTER_SO99               │
+│     • Carga configuración, idioma, columnas                 │
 └────────────────────────┬────────────────────────────────────┘
                          │
 ┌────────────────────────▼────────────────────────────────────┐
-│  2. IMPORTACIÓN: El planificador ejecuta la importación    │
-│     • Se importan propuestas de SO99 para los Plangroups   │
-│       cuya frecuencia de planificación corresponde al día  │
-│     • Se importa masterdata, stocks, sustituciones         │
-│     • Opcional: Carga Info ERP (reglas, red logística)     │
+│  2. IMPORTACIÓN: El planificador ejecuta la importación     │
+│     • Se importan propuestas de SO99 para los Plangroups    │
+│       cuya frecuencia de planificación corresponde al día   │
+│     • Se importa masterdata, stocks, sustituciones          │
+│     • Opcional: Carga Info ERP (reglas, red logística)      │
 └────────────────────────┬────────────────────────────────────┘
                          │
 ┌────────────────────────▼────────────────────────────────────┐
-│  3. PEM CALCULA AUTOMÁTICAMENTE:                           │
-│     a) TransferOrders SO99 → linking + netificación        │
-│     b) Sustituciones Locales → busca sustitutos en mismo   │
-│        almacén y netifica                                  │
-│     c) Sustituciones en Red → busca iguales/equivalentes   │
-│        en toda la red logística y netifica                 │
-│     d) Cálculo de Mínimos → evalúa MANP3, MANP4, MANP5     │
-│     e) Centralización → agrupa pedidos por lote/compra     │
-│     f) Promociones → aplica descuentos                     │
+│  3. PEM CALCULA AUTOMÁTICAMENTE:                            │
+│     a) TransferOrders SO99 → linking + netificación         │
+│     b) Sustituciones Locales → busca sustitutos en mismo    │
+│        almacén y netifica                                   │
+│     c) Sustituciones en Red → busca iguales/equivalentes    │
+│        en toda la red logística y netifica                  │
+│     d) Cálculo de Mínimos → evalúa MANP3, MANP4, MANP5      │
+│     e) Centralización → agrupa pedidos por lote/compra      │
+│     f) Promociones → aplica descuentos                      │
 └────────────────────────┬────────────────────────────────────┘
                          │
 ┌────────────────────────▼────────────────────────────────────┐
-│  4. VISUALIZACIÓN: El planificador ve el árbol jerárquico  │
-│     🌐 Plangroup                                           │
-│       🏭 Supplier                                          │
-│         🏬 Warehouse                                       │
-│           📋 Propuestas (grid con columnas configuradas)   │
+│  4. VISUALIZACIÓN: El planificador ve el árbol jerárquico   │
+│     🌐 Plangroup                                            │
+│       🏭 Supplier                                           │
+│         🏬 Warehouse                                        │
+│           📋 Propuestas (grid con columnas configuradas)    │
 │                                                             │
-│     Colores por estado:                                    │
-│     ⬜ Gris = Sin procesar                                 │
-│     🟢 Verde = OK                                          │
-│     🔴 Rojo = MANP3 (problema de lote mínimo)              │
-│     🟠 Naranja = MANP4 (problema de compra mínima)         │
-│     🟡 Amarillo = MANP5 (problema de portes)               │
-│     🔵 Azul = Listo para exportar                          │
-│     🟣 Lila = Exportado                                    │
+│     Colores por estado:                                     │
+│     ⬜ Gris = Sin procesar                                  │
+│     🟢 Verde = OK                                           │
+│     🔴 Rojo = MANP3 (problema de lote mínimo)               │
+│     🟠 Naranja = MANP4 (problema de compra mínima)          │
+│     🟡 Amarillo = MANP5 (problema de portes)                │
+│     🔵 Azul = Listo para exportar                           │
+│     🟣 Lila = Exportado                                     │
 └────────────────────────┬────────────────────────────────────┘
                          │
 ┌────────────────────────▼────────────────────────────────────┐
-│  5. REVISIÓN DE PROBLEMAS (MANP3, MANP4, MANP5):           │
-│     El planificador revisa los nodos con problemas:        │
+│  5. REVISIÓN DE PROBLEMAS (MANP3, MANP4, MANP5):            │
+│     El planificador revisa los nodos con problemas:         │
 │                                                             │
-│     Para cada necesidad en MANP3/MANP4/MANP5:              │
-│     • Abre el formulario de restricciones                  │
-│       (Restriction_NecessitiesForm)                        │
-│     • Ve: Producto, Cantidad, Mínimo requerido,            │
-│       Opciones de acción                                   │
+│     Para cada necesidad en MANP3/MANP4/MANP5:               │
+│     • Abre el formulario de restricciones                   │
+│       (Restriction_NecessitiesForm)                         │
+│     • Ve: Producto, Cantidad, Mínimo requerido,             │
+│       Opciones de acción                                    │
 │                                                             │
-│     Acciones disponibles:                                  │
-│     • ADVANCE (0): Adelantar cantidad                      │
-│     • BUY (1): Forzar compra (ignorar mínimo)              │
-│     • NO_BUY (2): No comprar                               │
-│     • TRANSFER (3): Traspasar desde otro almacén           │
-│     • CEN_NO_BUY (4): Centralizar y no comprar             │
+│     Acciones disponibles:                                   │
+│     • ADVANCE (0): Adelantar cantidad                       │
+│     • BUY (1): Forzar compra (ignorar mínimo)               │
+│     • NO_BUY (2): No comprar                                │
+│     • TRANSFER (3): Traspasar desde otro almacén            │
+│     • CEN_NO_BUY (4): Centralizar y no comprar              │
 │                                                             │
-│     El planificador también puede:                         │
-│     • Editar cantidades manualmente en el grid             │
-│     • Ver candidatos a sustitución (SubsProposalsForm)     │
-│     • Ver movimientos/traspasos (MovimentsPorposalsForm)   │
-│     • Editar reglas de compensación (RuleCompensaDialog)   │
+│     El planificador también puede:                          │
+│     • Editar cantidades manualmente en el grid              │
+│     • Ver candidatos a sustitución (SubsProposalsForm)      │
+│     • Ver movimientos/traspasos (MovimentsPorposalsForm)    │
+│     • Editar reglas de compensación (RuleCompensaDialog)    │
 └────────────────────────┬────────────────────────────────────┘
                          │
 ┌────────────────────────▼────────────────────────────────────┐
-│  6. RECALCULAR (opcional):                                 │
-│     Tras cambios manuales, el planificador puede:          │
-│     • Re-ejecutar cálculos de sustituciones                │
-│     • Re-ejecutar cálculo de mínimos                       │
-│     • Los estados se actualizan automáticamente            │
+│  6. RECALCULAR (opcional):                                  │
+│     Tras cambios manuales, el planificador puede:           │
+│     • Re-ejecutar cálculos de sustituciones                 │
+│     • Re-ejecutar cálculo de mínimos                        │
+│     • Los estados se actualizan automáticamente             │
 └────────────────────────┬────────────────────────────────────┘
                          │
 ┌────────────────────────▼────────────────────────────────────┐
-│  7. APROBACIÓN Y EXPORTACIÓN:                              │
-│     • El planificador selecciona Plangroups a exportar     │
-│     • Marca como "To Export" → estado TO_EXPORT (90)       │
-│     • Ejecuta Exportar:                                    │
-│       - Se insertan en OUT_PURCHASE_ORDERS                 │
-│       - Se insertan en OUT_TRANSFER_ORDERS                 │
-│       - Se ejecuta SP que mueve datos a INTER_SO99         │
-│     • Las propuestas pasan a estado EXPORTED (95)          │
-│     • Los datos llegan al ERP para generar pedidos reales  │
+│  7. APROBACIÓN Y EXPORTACIÓN:                               │
+│     • El planificador selecciona Plangroups a exportar      │
+│     • Marca como "To Export" → estado TO_EXPORT (90)        │
+│     • Ejecuta Exportar:                                     │
+│       - Se insertan en OUT_PURCHASE_ORDERS                  │
+│       - Se insertan en OUT_TRANSFER_ORDERS                  │
+│       - Se ejecuta SP que mueve datos a INTER_SO99          │
+│     • Las propuestas pasan a estado EXPORTED (95)           │
+│     • Los datos llegan al ERP para generar pedidos reales   │
 └─────────────────────────────────────────────────────────────┘
 ```
 
