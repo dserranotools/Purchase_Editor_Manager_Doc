@@ -100,6 +100,8 @@ Ejemplo: El Plangroup "LÁCTEOS_DIARIO" se planifica cada día, centraliza vía 
 │ • Vincula cada TransferOrder con su propuesta de compra      │
 │ • Netifica: descuenta la cantidad traspasada de la compra    │
 └──────────────────────────────────────────────────────────────┘
+→ [Flujos Detallados: ejemplo completo](Flujos_Detallados.md#sec1)
+
                               ↓
 ┌──────────────────────────────────────────────────────────────┐
 │ FASE 2: Sustituciones Locales (mismo almacén)                │
@@ -324,6 +326,8 @@ CAS1: 40 uds (no llega)       → TransferOrder REG_ESTE→ALI1: 40 uds
                                → TransferOrder REG_ESTE→CAS1: 40 uds
 ```
 
+                               → [Flujos Detallados: centralización](Flujos_Detallados.md#sec5)
+
 ---
 
 ## 8. Estados de Necesidad: MANP3, MANP4, MANP5
@@ -486,6 +490,8 @@ Cada regla obtiene una puntuación según los filtros que aplica:
 - Regla A: `aplicationCode="LACTEOS"` (FAMI=3), `whouseDest="VAL4"` (+4) → 7 puntos
 - Regla B: `aplicationCode="LACTEOS"` (FAMI=3) → 3 puntos
 - **Gana la Regla A** por ser más específica
+
+→ [Flujos Detallados: algoritmo de validación](Flujos_Detallados.md#sec3)
 
 ---
 

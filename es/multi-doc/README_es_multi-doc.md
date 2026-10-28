@@ -87,6 +87,14 @@ Trunk/
 
 ---
 
+## Documentación complementaria
+
+| Documento | Contenido |
+|---|---|
+| 📖 [Flujos Detallados](Flujos_Detallados.md) | Explicación paso a paso de los flujos de negocio más complejos, con ejemplos concretos y fragmentos de código |
+
+---
+
 ## Notas técnicas rápidas
 
 - **Lenguaje:** VB.NET, .NET Framework 4.8
