@@ -101,7 +101,7 @@ Ejemplo: El Plangroup "LÁCTEOS_DIARIO" se planifica cada día, centraliza vía 
 │ • Netifica: descuenta la cantidad traspasada de la compra    │
 └──────────────────────────────────────────────────────────────┘
 
-> 📖 Para más detalle con ejemplo paso a paso, véase [Flujos Detallados: TransferOrders SO99](Flujos_Detallados.md#1-transferorders-so99--netificación-de-propuestas)
+→ [Flujos Detallados: ejemplo completo](Flujos_Detallados.md#sec1)
 
                               ↓
 ┌──────────────────────────────────────────────────────────────┐
@@ -327,7 +327,7 @@ CAS1: 40 uds (no llega)       → TransferOrder REG_ESTE→ALI1: 40 uds
                                → TransferOrder REG_ESTE→CAS1: 40 uds
 ```
 
-                               > 📖 Para más detalle sobre el flujo de centralización, véase [Flujos Detallados: Centralización ACCUM](Flujos_Detallados.md#5-centralización-accum--transferorders)
+                               → [Flujos Detallados: centralización](Flujos_Detallados.md#sec5)
 
 ---
 
@@ -492,7 +492,7 @@ Cada regla obtiene una puntuación según los filtros que aplica:
 - Regla B: `aplicationCode="LACTEOS"` (FAMI=3) → 3 puntos
 - **Gana la Regla A** por ser más específica
 
-> 📖 Para más detalle sobre el algoritmo de validación con ejemplos, véase [Flujos Detallados: Validación de reglas de compensación](Flujos_Detallados.md#3-validación-de-candidatos-contra-reglas-de-compensación)
+→ [Flujos Detallados: algoritmo de validación](Flujos_Detallados.md#sec3)
 
 ---
 

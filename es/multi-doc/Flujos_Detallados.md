@@ -9,16 +9,17 @@
 
 | # | Flujo | Estado |
 |---|---|---|
-| 1 | [TransferOrders SO99 → Netificación de propuestas](#1-transferorders-so99--netificación-de-propuestas) | ✅ Completado |
-| 2 | [Búsqueda de candidatos: Sustitutos (S), Iguales (I), Equivalentes (D)](#2-búsqueda-de-candidatos-sustitutos-s-iguales-i-equivalentes-d) | ⏳ Pendiente |
-| 3 | [Validación de candidatos contra reglas de compensación](#3-validación-de-candidatos-contra-reglas-de-compensación) | ⏳ Pendiente |
-| 4 | [Cálculo de MANP3/4/5 (mínimos de lote, compra, portes)](#4-cálculo-de-manp345-mínimos-de-lote-compra-portes) | ⏳ Pendiente |
-| 5 | [Centralización ACCUM → TransferOrders](#5-centralización-accum--transferorders) | ⏳ Pendiente |
-| 6 | [Exportación: BulkInsert + Stored Procedures](#6-exportación-bulkinsert--stored-procedures) | ⏳ Pendiente |
-| 7 | [Importación desde SO99 (backup, clean, load)](#7-importación-desde-so99-backup-clean-load) | ⏳ Pendiente |
+| 1 | [TransferOrders SO99 → Netificación de propuestas](#sec1) | ✅ Completado |
+| 2 | [Búsqueda de candidatos: Sustitutos (S), Iguales (I), Equivalentes (D)](#sec2) | ⏳ Pendiente |
+| 3 | [Validación de candidatos contra reglas de compensación](#sec3) | ⏳ Pendiente |
+| 4 | [Cálculo de MANP3/4/5 (mínimos de lote, compra, portes)](#sec4) | ⏳ Pendiente |
+| 5 | [Centralización ACCUM → TransferOrders](#sec5) | ⏳ Pendiente |
+| 6 | [Exportación: BulkInsert + Stored Procedures](#sec6) | ⏳ Pendiente |
+| 7 | [Importación desde SO99 (backup, clean, load)](#sec7) | ⏳ Pendiente |
 
 ---
 
+<a id="sec1"></a>
 ## 1. TransferOrders SO99 → Netificación de propuestas
 
 ### Contexto
@@ -183,6 +184,7 @@ Si la propuesta destino se centraliza (`proposal_SRC.CentralizeTo` no vacío), l
 
 ---
 
+<a id="sec2"></a>
 ## 2. Búsqueda de candidatos: Sustitutos (S), Iguales (I), Equivalentes (D)
 
 > ⏳ **Pendiente de documentar**
@@ -195,6 +197,7 @@ Este flujo explicará:
 
 ---
 
+<a id="sec3"></a>
 ## 3. Validación de candidatos contra reglas de compensación
 
 > ⏳ **Pendiente de documentar**
@@ -207,6 +210,7 @@ Este flujo explicará:
 
 ---
 
+<a id="sec4"></a>
 ## 4. Cálculo de MANP3/4/5 (mínimos de lote, compra, portes)
 
 > ⏳ **Pendiente de documentar**
@@ -220,6 +224,7 @@ Este flujo explicará:
 
 ---
 
+<a id="sec5"></a>
 ## 5. Centralización ACCUM → TransferOrders
 
 > ⏳ **Pendiente de documentar**
@@ -232,6 +237,7 @@ Este flujo explicará:
 
 ---
 
+<a id="sec6"></a>
 ## 6. Exportación: BulkInsert + Stored Procedures
 
 > ⏳ **Pendiente de documentar**
@@ -245,6 +251,7 @@ Este flujo explicará:
 
 ---
 
+<a id="sec7"></a>
 ## 7. Importación desde SO99 (backup, clean, load)
 
 > ⏳ **Pendiente de documentar**
