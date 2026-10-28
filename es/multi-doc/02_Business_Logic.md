@@ -100,6 +100,7 @@ Ejemplo: El Plangroup "LÁCTEOS_DIARIO" se planifica cada día, centraliza vía 
 │ • Vincula cada TransferOrder con su propuesta de compra      │
 │ • Netifica: descuenta la cantidad traspasada de la compra    │
 └──────────────────────────────────────────────────────────────┘
+
 → [Flujos Detallados: ejemplo completo](Flujos_Detallados.md#sec1)
 
                               ↓

@@ -1,6 +1,6 @@
 # Flujos Detallados de PEM
 
-> **Documentación complementaria** — Explicación paso a paso de los flujos de negocio más complejos de PEM.<br>
+> **Documentación complementaria** — Explicación paso a paso de los flujos de negocio más complejos de PEM.  
 > Este documento amplía los conceptos descritos en las especificaciones generales con ejemplos concretos, fragmentos de código y casos borde.
 
 ---
@@ -48,7 +48,7 @@ Cuando SO99 genera una TransferOrder, también ajusta la propuesta de compra ori
 Escenario:
   - MAD1 necesita 100 uds de Leche A para la semana que viene
   - VAL4 tiene excedente de 50 uds de Leche A
-
+  
 SO99 genera:
   - Propuesta de compra: "Comprar 100 uds Leche A para MAD1"
   - TransferOrder:       "Traspasar 50 uds Leche A de VAL4 → MAD1"
@@ -63,10 +63,10 @@ El método `netificaProposals_TransferordersSO99` recorre todas las TransferOrde
 ```vb
 Private Sub netificaProposals_TransferordersSO99(ByRef transferSO99Whouse As BEC.ProposalWhouseEntity)
     For Each transferSO99 As BEC.ProposalEntity In transferSO99Whouse.idxProposalList(0).Values
-
+        
         ' Busca la propuesta de compra a la que está vinculada esta TransferOrder
         proposal_SRC = mProposalPlangroupList.getSRC_Proposal(transferSO99)
-
+        
         If proposal_SRC IsNot Nothing Then
             ' ...
         End If
@@ -123,14 +123,14 @@ For Each sust As BEC.SubstituteProposal In proposal_SRC.substituteList.Values
         transferSO99_New = New BEC.ProposalEntity(sust.ItemID_Ori, ...)
         transferSO99_New.SRC_LocationID = sust.Location_Orig
         transferSO99_New.tratar = EnumsBCC.Necessity_Status.TRANSFER_Link
-
+        
         ' Traspasa la cantidad de la TransferOrder original a la nueva
         If transferSO99.QtyFinal >= sust.Qty Then
             transferSO99.QtyFinal -= sust.Qty
             transferSO99_New.QtyFinal = sust.Qty
             sust.Qty = 0
         End If
-
+        
         transferSO99List_New.Add(transferSO99_New)
     End If
 Next
